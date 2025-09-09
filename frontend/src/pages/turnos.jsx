@@ -12,11 +12,11 @@ function Turnos() {
 
   return (
     <div className="container mt-4">
-      <h2>Turnos disponibles</h2>
+      <h2>Turnos Ocupados</h2>
       <ul className="list-group">
         {turnos.map((t, idx) => (
           <li key={idx} className="list-group-item">
-            {t.fecha} - {t.hora}
+            {t.nombre} - {t.fecha} - {t.hora}
           </li>
         ))}
       </ul>

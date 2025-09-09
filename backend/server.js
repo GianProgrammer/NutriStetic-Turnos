@@ -1,20 +1,19 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv"
 import turnosRoutes from "./routes/turnos.js";
 
+dotenv.config()
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/turnos", turnosRoutes);
 
-mongoose.connect("mongodb+srv://gianferreyra2014_db_user:<dbPassword>@bdturnos.as5xw9i.mongodb.net/?retryWrites=true&w=majority&appName=bdTurnos", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.RESTREVIEWS_DB_URI)
 .then(() => {
   console.log("Conectado a MongoDB");
   app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
