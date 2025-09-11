@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const turnoSchema = new mongoose.Schema({
+  dni: {type: Number, required: true},
   nombre: { type: String, required: true },
   servicio: { type: String, required: true },
   fecha: { type: String, required: true }, // lo podés guardar como String o Date

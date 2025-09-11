@@ -10,7 +10,8 @@ function NavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-            <Nav.Link as={Link} to="/turnos">Turnos</Nav.Link>
+            <Nav.Link as={Link} to="/mis-turnos">Turnos</Nav.Link>
+            <Nav.Link as={Link} to="/pedir-turno">Solicitar Turno</Nav.Link>
             <Nav.Link as={Link} to="/contacto">Contacto</Nav.Link>
           </Nav>
         </Navbar.Collapse>

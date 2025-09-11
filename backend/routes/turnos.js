@@ -34,4 +34,14 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.get("/:dni", async (req, res) => {
+  try {
+    const { dni } = req.params;
+    const turnos = await Turno.find({ dni });
+    res.json(turnos);
+  } catch (err) {
+    res.status(500).json({ error: "Error al buscar turnos" });
+  }
+});
+
 export default router;
