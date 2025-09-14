@@ -1,21 +1,52 @@
 import { Link } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import logo from "../assets/logo.png"; // Ajustá la ruta a tu logo
 
 function NavBar() {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar expand="lg" style={{ backgroundColor: "#8CC641" }}>
       <Container>
-        <Navbar.Brand as={Link} to="/">Consultorios Nutrición</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <img
+            src={logo}
+            alt="NutriStetic Logo"
+            style={{ height: "45px", marginRight: "10px" }}
+          />
+          <span style={{ color: "#fff", fontWeight: "bold", fontSize: "1.3rem" }}>
+            NutriStetic
+          </span>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ borderColor: "#fff" }} />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-            <Nav.Link as={Link} to="/mis-turnos">Turnos</Nav.Link>
-            <Nav.Link as={Link} to="/pedir-turno">Solicitar Turno</Nav.Link>
-            <Nav.Link as={Link} to="/contacto">Contacto</Nav.Link>
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/" className="nav-link-custom">Inicio</Nav.Link>
+            <Nav.Link as={Link} to="/mis-turnos" className="nav-link-custom">Turnos</Nav.Link>
+            <Nav.Link as={Link} to="/pedir-turno" className="nav-link-custom">Solicitar Turno</Nav.Link>
+            <Nav.Link as={Link} to="/contacto" className="nav-link-custom">Contacto</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
+
+      <style>{`
+        .nav-link-custom {
+          color: #fff !important;
+          margin-left: 1rem;
+          font-weight: 500;
+          transition: all 0.3s ease;
+        }
+        .nav-link-custom:hover {
+          color: #ffffff !important; /* Hover blanco */
+          text-shadow: 0px 0px 6px rgba(0,0,0,0.4); /* brillo para contraste */
+        }
+        .navbar-toggler {
+          border: none;
+        }
+        .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' 
+          xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 0.9)' 
+          stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+      `}</style>
     </Navbar>
   );
 }

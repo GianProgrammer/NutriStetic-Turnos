@@ -51,7 +51,7 @@ function MisTurnos() {
           ) : (
             turnos.map((t, idx) => (
               <li key={idx} className="list-group-item">
-                {t.nombre} - {t.fecha} - {t.hora}
+                {t.servicio.charAt(0).toUpperCase() + t.servicio.slice(1)} - {t.nombre} - {t.fecha} - {t.hora}
               </li>
             ))
           )}
