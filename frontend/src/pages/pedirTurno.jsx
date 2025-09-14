@@ -25,7 +25,7 @@ function PedirTurno() {
   return (
     <div className="container mt-5 d-flex justify-content-center">
       <div className="card shadow-lg p-4 border-0 rounded-4" style={{ maxWidth: "500px", width: "100%" }}>
-        <h2 className="text-center mb-4 text-success fw-bold">Reservá tu turno</h2>
+        <h2 className="text-center mb-4 fw-bold" style={{color: "#8CC641" }}>Reservá tu turno</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

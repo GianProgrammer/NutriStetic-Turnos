@@ -19,7 +19,7 @@ function Home() {
           Accesos rápidos
         </h2>
         <div className="d-flex justify-content-center gap-3">
-          <Link to="/mis-turnos" className="btn btn-lg btn-turno btn-amarillo">
+          <Link to="/mis-turnos" className="btn btn-lg btn-turno btn-verde">
             Mis Turnos
           </Link>
           <Link to="/pedir-turno" className="btn btn-lg btn-turno btn-verde">
@@ -60,10 +60,6 @@ function Home() {
           border-radius: 10px;
         }
 
-        .btn-amarillo {
-          background-color: #D3DA11;
-          color: #fff;
-        }
         .btn-verde {
           background-color: #25D366;
           color: #fff;
@@ -74,9 +70,7 @@ function Home() {
           transform: scale(1.08);
           box-shadow: 0 0 20px rgba(0,0,0,0.4), 0 0 15px rgba(140,198,65,0.8);
         }
-        .btn-amarillo:hover {
-          background-color: #D6E02E; 
-        }
+
         .btn-verde:hover {
           background-color: #1ebe57; 
         }

@@ -4,7 +4,7 @@ import logo from "../assets/logo.png"; // Ajustá la ruta a tu logo
 
 function NavBar() {
   return (
-    <Navbar expand="lg" style={{ backgroundColor: "#8CC641" }}>
+    <Navbar expand="lg" style={{ backgroundColor: "rgb(37, 211, 102)" }}>
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img
@@ -22,7 +22,7 @@ function NavBar() {
             <Nav.Link as={Link} to="/" className="nav-link-custom">Inicio</Nav.Link>
             <Nav.Link as={Link} to="/mis-turnos" className="nav-link-custom">Turnos</Nav.Link>
             <Nav.Link as={Link} to="/pedir-turno" className="nav-link-custom">Solicitar Turno</Nav.Link>
-            <Nav.Link as={Link} to="/contacto" className="nav-link-custom">Contacto</Nav.Link>
+            <Nav.Link as={Link} to="/tratamientos" className="nav-link-custom">Tratamientos</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
