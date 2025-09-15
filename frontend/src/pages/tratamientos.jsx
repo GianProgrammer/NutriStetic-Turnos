@@ -192,53 +192,52 @@ export default function Tratamientos() {
           transition: transform 0.6s ease;
         }
 
-            /* Título siempre visible */
-            .t-title-static {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            color: rgb(140, 198, 65); /* título negro */
-            font-weight: 700;
-            z-index: 2;
-            font-size: 0.95rem;
-            transition: opacity 0.35s ease; /* animación de desaparición */
-            }
+        /* Título siempre visible */
+        .t-title-static {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          color: rgb(140, 198, 65); /* título negro */
+          font-weight: 700;
+          z-index: 2;
+          font-size: 0.95rem;
+          transition: opacity 0.35s ease; /* animación de desaparición */
+        }
 
-            /* Al hacer hover en la card, ocultamos el título estático */
-            .t-card:hover .t-title-static {
-            opacity: 0;
-            }
+        /* Al hacer hover en la card, ocultamos el título estático */
+        .t-card:hover .t-title-static {
+          opacity: 0;
+        }
 
-            /* Overlay sigue igual */
-            .t-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(37,211,102,0.18) 0%, rgba(140,198,65,0.18) 40%, rgba(0,0,0,0.6) 80%);
-            opacity: 0;
-            transform: translateY(6%);
-            transition: all 0.35s ease;
-            display: flex;
-            align-items: flex-end;
-            padding: 18px;
-            color: #fff;
-            }
+        /* Overlay sigue igual */
+        .t-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(37,211,102,0.18) 0%, rgba(140,198,65,0.18) 40%, rgba(0,0,0,0.6) 80%);
+          opacity: 0;
+          transform: translateY(6%);
+          transition: all 0.35s ease;
+          display: flex;
+          align-items: flex-end;
+          padding: 18px;
+          color: #fff;
+        }
 
-            .t-text {
-            transform: translateY(12px);
-            transition: transform 0.35s ease, opacity 0.35s ease;
-            opacity: 0;
-            }
+        .t-text {
+          transform: translateY(12px);
+          transition: transform 0.35s ease, opacity 0.35s ease;
+          opacity: 0;
+        }
 
-            .t-card:hover .t-overlay {
-            opacity: 1;
-            transform: translateY(0);
-            }
+        .t-card:hover .t-overlay {
+          opacity: 1;
+          transform: translateY(0);
+        }
 
-            .t-card:hover .t-text {
-            transform: translateY(0);
-            opacity: 1;
-            }
-
+        .t-card:hover .t-text {
+          transform: translateY(0);
+          opacity: 1;
+        }
 
         /* Make text area white-ish on small screens for readability */
         @media (max-width: 576px) {

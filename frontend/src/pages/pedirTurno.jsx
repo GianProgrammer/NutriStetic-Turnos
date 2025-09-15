@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+const HORA_MIN = 8;
+const HORA_MAX = 19;
 
 function PedirTurno() {
   const [form, setForm] = useState({
@@ -16,6 +18,22 @@ function PedirTurno() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const fechaForm = form.fecha;
+    const [anio, mes, dia] = fechaForm.split("-");
+    const fecha = new Date(anio, mes - 1, dia);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    if(fecha < today) {
+      alert("La fecha debe ser posterior a hoy");
+      return;
+    }
+    const hora = form.hora;
+    const [h, m] = hora.split(":").map(Number);
+    if(h < HORA_MIN || h > HORA_MAX || (h === HORA_MAX && m > 0)) {
+      alert("El horario debe estar entre las 08:00 y las 19:00");
+      return;
+    }
+
     axios
       .post("/api/turnos", form)
       .then(() => alert("Turno reservado con éxito"))
@@ -23,7 +41,7 @@ function PedirTurno() {
   };
 
   return (
-    <div className="container mt-5 d-flex justify-content-center">
+    <div className="container mt-5 d-flex justify-content-center mb-5">
       <div className="card shadow-lg p-4 border-0 rounded-4" style={{ maxWidth: "500px", width: "100%" }}>
         <h2 className="text-center mb-4 fw-bold" style={{color: "#8CC641" }}>Reservá tu turno</h2>
         <form onSubmit={handleSubmit}>
@@ -49,7 +67,7 @@ function PedirTurno() {
             onChange={handleChange}
             required
           >
-            <option value="" disabled selected>
+            <option value="" disabled>
               -- Seleccioná un servicio --
             </option>
             <option value="body_up">Body Up Teslagen</option>

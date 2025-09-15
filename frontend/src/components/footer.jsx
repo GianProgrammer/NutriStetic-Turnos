@@ -7,7 +7,6 @@ function Footer() {
         background: "#25D366",
         color: "#fff",
         padding: "2rem 1rem",
-        marginTop: "2rem",
       }}
     >
       <div className="container">

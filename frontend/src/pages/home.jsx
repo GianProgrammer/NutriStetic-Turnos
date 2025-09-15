@@ -8,21 +8,21 @@ function Home() {
       <section className="hero-banner d-flex flex-column justify-content-center align-items-center text-center">
         <div className="overlay"></div>
         <div className="content">
-          <h1 className="display-4 fw-bold mb-3">Bienvenido a NutriStetic</h1>
-          <p className="fs-4">Gestiona tus turnos de forma fácil y rápida</p>
+          <h1 className="display-4 mb-3 montserrat-font">Bienvenido a NutriStetic</h1>
+          <p className="fs-4 montserrat-font">Gestiona tus turnos de forma fácil y rápida</p>
         </div>
       </section>
 
       {/* Sección de botones */}
-      <section className="text-center py-5" style={{ backgroundColor: "#f9f9f9" }}>
-        <h2 className="mb-4 fw-bold" style={{ color: "#8CC641" }}>
+      <section className="text-center py-5" style={{ backgroundColor: "#dddddd" }}>
+        <h2 className="mb-4 montserrat-font" style={{ color: "#8CC641" }}>
           Accesos rápidos
         </h2>
-        <div className="d-flex justify-content-center gap-3">
+        <div className="d-flex justify-content-center gap-3 montserrat-font">
           <Link to="/mis-turnos" className="btn btn-lg btn-turno btn-verde">
             Mis Turnos
           </Link>
-          <Link to="/pedir-turno" className="btn btn-lg btn-turno btn-verde">
+          <Link to="/pedir-turno" className="btn btn-lg btn-turno btn-verde montserrat-font">
             Pedir Turno
           </Link>
         </div>
@@ -30,6 +30,13 @@ function Home() {
 
       {/* Estilos */}
       <style>{`
+
+        .montserrat-font {
+          font-family: "Montserrat", sans-serif;
+          font-optical-sizing: auto;
+          font-weight: 300;
+          font-style: light;
+        }
         .hero-banner {
           position: relative;
           min-height: 60vh;
@@ -54,7 +61,6 @@ function Home() {
         /* Botones */
         .btn-turno {
           border: none;
-          font-weight: 600;
           padding: 0.8rem 2rem;
           transition: all 0.3s ease-in-out;
           border-radius: 10px;

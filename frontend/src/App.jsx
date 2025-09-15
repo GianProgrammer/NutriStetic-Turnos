@@ -6,11 +6,11 @@ import Contacto from "./pages/contacto";
 import Tratamientos from "./pages/tratamientos";
 import NavBar from "./components/navbar";
 import Footer from "./components/footer";
-import "./App.css";
+import "./app.css";
 
 function App() {
   return (
-    <div className="app-container">
+    <div className="app-container montserrat-font">
       <BrowserRouter>
         <NavBar />
         <main>

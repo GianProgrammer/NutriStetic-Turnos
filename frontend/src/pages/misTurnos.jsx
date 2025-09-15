@@ -1,6 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
 
+function formatearFechas(a, b) {
+  const [aYear, aMonth, aDay] = a.fecha.split("-").map(Number);
+  const [bYear, bMonth, bDay] = b.fecha.split("-").map(Number);
+
+  const fechaA = new Date(aYear, aMonth - 1, aDay);
+  const fechaB = new Date(bYear, bMonth - 1, bDay);
+
+  return fechaA - fechaB; // funciona para ordenar
+}
+
+
 function MisTurnos() {
   const [dni, setDni] = useState("");
   const [turnos, setTurnos] = useState([]);
@@ -85,15 +96,15 @@ function MisTurnos() {
                   No tenés turnos registrados
                 </li>
               ) : (
-                turnos.map((t, idx) => (
+                turnos.sort(formatearFechas).map((t, idx) => (
                   <li
                     key={idx}
                     className="list-group-item d-flex justify-content-between align-items-center"
                   >
                     <span>
                       <strong>
-                        {t.servicio.charAt(0).toUpperCase() +
-                          t.servicio.slice(1)}
+                        {(t.servicio.charAt(0).toUpperCase() +
+                          t.servicio.slice(1)).replace("_", " ")}
                       </strong>{" "}
                       - {t.nombre}
                     </span>
