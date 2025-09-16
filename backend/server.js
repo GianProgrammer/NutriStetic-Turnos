@@ -1,17 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import turnosRoutes from "./routes/turnos.js";
+import authRoutes from "./routes/auth.js";
 
 dotenv.config()
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.API_PORT;
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/turnos", turnosRoutes);
+app.use("/api/auth", authRoutes);
+
 
 mongoose.connect(process.env.RESTREVIEWS_DB_URI)
 .then(() => {
