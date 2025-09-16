@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/turnos", turnosRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
 
 
 mongoose.connect(process.env.RESTREVIEWS_DB_URI)

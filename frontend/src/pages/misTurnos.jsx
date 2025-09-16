@@ -23,7 +23,7 @@ function MisTurnos() {
 
     setLoading(true);
     try {
-      const res = await axios.get(`api/turnos/${dni}`);
+      const res = await axios.get(`/api/turnos/${dni}`);
       setTurnos(res.data);
     } catch (err) {
       console.error(err);
