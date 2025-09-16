@@ -13,3 +13,12 @@ Los usuarios pueden ingresar su **DNI** para consultar los turnos disponibles y 
 
 ---
 
+
+## Screenshots
+
+### Home
+[![home](https://i.postimg.cc/cLStf5G1/Screenshot-2025-09-16-152153.png)](https://postimg.cc/XpsvbLvt)
+
+### Solicitar Turno
+
+[![Solicitar Turno](https://i.postimg.cc/zfwjnRc6/Screenshot-2025-09-16-152446.png)](https://postimg.cc/zLBKN35F)
