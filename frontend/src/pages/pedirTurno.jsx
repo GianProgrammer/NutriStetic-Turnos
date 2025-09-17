@@ -3,7 +3,7 @@ import axios from "axios";
 const HORA_MIN = 8;
 const HORA_MAX = 19;
 
-function PedirTurno() {
+function PedirTurno({user}) {
   const [form, setForm] = useState({
     nombre: "",
     dni: "",
@@ -11,6 +11,23 @@ function PedirTurno() {
     fecha: "",
     hora: ""
   });
+
+  const generateTimeOptions = (min = HORA_MIN, max = HORA_MAX, stepMinutes = 30) => {
+    const pad = (n) => String(n).padStart(2, "0");
+    const [minH, minM] = min.split(":").map(Number);
+    const [maxH, maxM] = max.split(":").map(Number);
+    const start = minH * 60 + minM;
+    const end = maxH * 60 + maxM;
+    const out = [];
+    for (let t = start; t <= end; t += stepMinutes) {
+      const hh = Math.floor(t / 60);
+      const mm = t % 60;
+      out.push(`${pad(hh)}:${pad(mm)}`);
+    }
+    return out;
+  };
+
+  const timeOptions = generateTimeOptions("08:00", "19:00", 30);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,10 +44,8 @@ function PedirTurno() {
       alert("La fecha debe ser posterior a hoy");
       return;
     }
-    const hora = form.hora;
-    const [h, m] = hora.split(":").map(Number);
-    if(h < HORA_MIN || h > HORA_MAX || (h === HORA_MAX && m > 0)) {
-      alert("El horario debe estar entre las 08:00 y las 19:00");
+    if (!timeOptions.includes(form.hora)) {
+      alert("Seleccioná una hora válida: cada 30 minutos entre 08:00 y 19:00.");
       return;
     }
 
@@ -56,6 +71,7 @@ function PedirTurno() {
           <input
             type="text"
             name="dni"
+            value = {user.dni}
             placeholder="DNI"
             className="form-control mb-3"
             onChange={handleChange}

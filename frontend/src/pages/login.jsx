@@ -26,10 +26,12 @@ function Login({ setUser }) {
 
       // Ajustá esto según lo que tu backend ponga en el JWT
       setUser({ dni: payload.dni, role: payload.role });
+      window.location.href = "/"  // ir al home
     } catch (err) {
       console.error(err);
       alert("Login inválido");
     }
+    
   };
 
   return (

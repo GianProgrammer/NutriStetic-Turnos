@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import Home from "./pages/home";
 import MisTurnos from "./pages/misTurnos";
 import PedirTurno from "./pages/pedirTurno";
@@ -15,15 +16,24 @@ import "./app.css";
 function App() {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  const token = localStorage.getItem("token");  
-  if (token) {
-    setIsAuth(true);
-  }
+    const token = localStorage.getItem("token"); 
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUser({ dni: decoded.dni, role: decoded.role });
+      setIsAuth(true);
+    }
+    setLoading(false); 
   }, []);
 
+
+  if (loading) 
+    return;
+  <Navigate to="/"></Navigate>
   return (
+    
     <div className="app-container montserrat-font">
       <BrowserRouter>
         {user && <NavBar user={user} />}
@@ -53,7 +63,7 @@ function App() {
             {isAuth && user?.role === "admin" && (
               <>
                 <Route path="/" element={<Home user={user}/>} />
-                <Route path="/pedir-turno" element={<PedirTurno />} />
+                <Route path="/pedir-turno" element={<PedirTurno user={user}/>} />
                 <Route path="/ver-turnos" element={<VerTurnos />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </>
