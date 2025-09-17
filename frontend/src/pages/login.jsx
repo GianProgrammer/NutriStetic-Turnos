@@ -1,6 +1,7 @@
 // src/pages/login.jsx
 import { useState } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 function Login({ setUser }) {
   const [form, setForm] = useState({ dni: "", password: "" });
@@ -22,10 +23,8 @@ function Login({ setUser }) {
       localStorage.setItem("token", token);
 
       // Decodificar payload del JWT
-      const payload = JSON.parse(atob(token.split(".")[1]));
-
-      // Ajustá esto según lo que tu backend ponga en el JWT
-      setUser({ dni: payload.dni, role: payload.role });
+      const payload = jwtDecode(token);
+      setUser({ dni: payload.dni, role: payload.role , nombre: payload.nombre});
       window.location.href = "/"  // ir al home
     } catch (err) {
       console.error(err);

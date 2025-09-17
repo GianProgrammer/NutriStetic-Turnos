@@ -12,3 +12,42 @@ html, body, #root {
 main {
   flex: 1 /* ocupa todo lo que queda entre navbar y footer */
 }
+
+.custom-modal .modal-content {
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background-color: #f9f9f9; /* fondo suave neutro */
+}
+
+.custom-header {
+  background-color: #8CC641;
+  color: white;
+  border-bottom: none;
+}
+
+.custom-body {
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.custom-footer {
+  border-top: none;
+  justify-content: center;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.custom-button {
+  background-color: #25D366;
+  border: none;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #1eb851;
+}

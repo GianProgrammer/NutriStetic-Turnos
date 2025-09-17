@@ -1,12 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
+import {
+  TurnoOcupadoModal,
+  FechaInvalidaModal,
+  HoraInvalidaModal,
+  TurnoExitosoModal,
+  ErrorBusquedaModal,
+  ServicioInvalidoModal,
+} from "../components/modal"
+import "../app.css";
+
 const HORA_MIN = 8;
 const HORA_MAX = 19;
 
 function PedirTurno({user}) {
+  const [modalShow, setModalShow] = useState(null);
   const [form, setForm] = useState({
-    nombre: "",
-    dni: "",
+    nombre: user.nombre,
+    dni: user.dni,
     servicio: "",
     fecha: "",
     hora: ""
@@ -40,29 +51,62 @@ function PedirTurno({user}) {
     const fecha = new Date(anio, mes - 1, dia);
     const today = new Date();
     today.setHours(0,0,0,0);
+
+    if(form.servicio == "") {
+      setModalShow("fechaInvalida");
+      return;
+    }
+      
     if(fecha < today) {
-      alert("La fecha debe ser posterior a hoy");
+      return setModalShow("fechaInvalida");
       return;
     }
     if (!timeOptions.includes(form.hora)) {
-      alert("Seleccioná una hora válida: cada 30 minutos entre 08:00 y 19:00.");
+      return setModalShow("horaInvalida");
       return;
     }
-
     axios
       .post("/api/turnos", form)
-      .then(() => alert("Turno reservado con éxito"))
-      .catch((err) => console.error(err));
+      .then(() => setModalShow("exitoso"))
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          // Mostramos el modal cuando el turno está ocupado
+          setModalShow("turnoOcupado");
+        } else {
+          alert("Error al reservar turno");
+        }
+      });
   };
 
   return (
     <div className="container mt-5 d-flex justify-content-center mb-5">
+      <TurnoOcupadoModal
+        show={modalShow === "turnoOcupado"}
+        handleClose={() => setModalShow(null)}
+      />
+      <FechaInvalidaModal
+        show={modalShow === "fechaInvalida"}
+        handleClose={() => setModalShow(null)}
+      />
+      <HoraInvalidaModal
+        show={modalShow === "horaInvalida"}
+        handleClose={() => setModalShow(null)}
+      />
+      <TurnoExitosoModal
+        show={modalShow === "exitoso"}
+        handleClose={() => setModalShow(null)}
+      />
+      <ServicioInvalidoModal
+        show={modalShow === "errorBusqueda"}
+        handleClose={() => setModalShow(null)}
+      />
       <div className="card shadow-lg p-4 border-0 rounded-4" style={{ maxWidth: "500px", width: "100%" }}>
         <h2 className="text-center mb-4 fw-bold" style={{color: "#8CC641" }}>Reservá tu turno</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="nombre"
+            value={user.nombre}
             placeholder="Nombre completo"
             className="form-control mb-3"
             onChange={handleChange}
@@ -83,7 +127,7 @@ function PedirTurno({user}) {
             onChange={handleChange}
             required
           >
-            <option value="" disabled>
+            <option value="" selected>
               -- Seleccioná un servicio --
             </option>
             <option value="body_up">Body Up Teslagen</option>

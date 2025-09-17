@@ -16,10 +16,23 @@ router.get("/", async (req, res) => {
 // Crear un turno
 router.post("/", async (req, res) => {
   try {
+    const { fecha, hora } = req.body;
+
+    // Normalizar fecha y hora
+    const fechaNorm = fecha.trim();
+    const horaNorm = hora.trim();
+
+    const turnoExistente = await Turno.findOne({ fecha: fechaNorm, hora: horaNorm });
+    if (turnoExistente) {
+      return res.status(400).json({ error: "Ya hay un turno reservado en esa fecha y hora" });
+    }
+
     const nuevoTurno = new Turno(req.body);
     await nuevoTurno.save();
     res.json(nuevoTurno);
+
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error al crear el turno" });
   }
 });

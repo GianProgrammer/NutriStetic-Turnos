@@ -4,7 +4,6 @@ import jwtDecode from "jwt-decode";
 import Home from "./pages/home";
 import MisTurnos from "./pages/misTurnos";
 import PedirTurno from "./pages/pedirTurno";
-import Contacto from "./pages/contacto";
 import Tratamientos from "./pages/tratamientos";
 import VerTurnos from "./pages/verTurnos";
 import NavBar from "./components/navbar";
@@ -22,21 +21,20 @@ function App() {
     const token = localStorage.getItem("token"); 
     if (token) {
       const decoded = jwtDecode(token);
-      setUser({ dni: decoded.dni, role: decoded.role });
+      setUser({ dni: decoded.dni, role: decoded.role , nombre: decoded.nombre});
       setIsAuth(true);
     }
     setLoading(false); 
   }, []);
 
-
   if (loading) 
     return;
-  <Navigate to="/"></Navigate>
+  console.log(user);
   return (
     
     <div className="app-container montserrat-font">
       <BrowserRouter>
-        {user && <NavBar user={user} />}
+        {user && <NavBar user={user} setUser={setUser}/>}
         <main>
           <Routes>
             {/* Rutas públicas */}
@@ -54,7 +52,7 @@ function App() {
               <>
                 <Route path="/" element={<Home user={user}/>} />
                 <Route path="/mis-turnos" element={<MisTurnos />} />
-                <Route path="/pedir-turno" element={<PedirTurno />} />
+                <Route path="/pedir-turno" element={<PedirTurno user={user}/>} />
                 <Route path="/tratamientos" element={<Tratamientos />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </>

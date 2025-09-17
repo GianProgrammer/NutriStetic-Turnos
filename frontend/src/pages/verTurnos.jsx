@@ -18,6 +18,19 @@ export default function AdminCalendario() {
     loadTurnos();
   }, []);
 
+  const eventStyleGetter = (event) => {
+    let backgroundColor = "#28a745";
+    
+    const style = {
+      backgroundColor,
+      borderRadius: "5px",
+      color: "white",
+      border: "none",
+      padding: "2px",
+    };
+    return { style };
+  };
+
   const loadTurnos = async () => {
     try {
       const res = await axios.get("/api/turnos"); // endpoint que devuelve todos los turnos
@@ -31,7 +44,7 @@ export default function AdminCalendario() {
 
         return {
           id: t._id,
-          title: `${t.nombre} — ${t.servicio}`,
+          title: `${t.nombre} — ${(t.servicio.charAt(0).toUpperCase() + t.servicio.slice(1)).replace("_", " ")}`,
           start,
           end,
           raw: t,
@@ -76,7 +89,7 @@ export default function AdminCalendario() {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-4 fw-bold" style={{ color: "#8CC641" }}>
+      <h2 className="text-center mb-4 fw-bold" style={{ color: "rgb(37, 211, 102)" }}>
         Calendario de Turnos (Admin)
       </h2>
 
@@ -84,6 +97,7 @@ export default function AdminCalendario() {
         <Calendar
           localizer={localizer}
           events={events}
+          eventPropGetter={eventStyleGetter}
           startAccessor="start"
           endAccessor="end"
           style={{ height: 700 }}

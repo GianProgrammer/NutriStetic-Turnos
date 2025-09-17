@@ -42,15 +42,14 @@ router.post("/login", async (req, res) => {
 
     // Buscar usuario
     const user = await Auth.findOne({ dni });
-    if (!user) return res.status(401).json({ message: "Credenciales inválidas" });
+    if (!user) return res.status(401).json({ message: "Usuario no encontrado" });
 
     // Comparar contraseña
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: "Credenciales inválidas" });
-
+    if (!isMatch) return res.status(401).json({ message: "Contraseña incorrecta" });
     // Crear token con datos del usuario
     const token = jwt.sign(
-      { id: user._id, dni: user.dni, role: user.role },
+      { id: user._id, dni: user.dni, role: user.role, nombre: user.nombre},
       JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -79,6 +78,7 @@ router.post("/verify", (req, res) => {
       user: {
         dni: payload.dni,
         role: payload.role,
+        nombre: user.nombre,
       },
     });
   } catch (err) {

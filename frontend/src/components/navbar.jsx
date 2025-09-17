@@ -1,8 +1,14 @@
-import { Link } from "react-router-dom";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import logo from "../assets/logo.png"; // Ajustá la ruta a tu logo
+import { Link, useNavigate } from "react-router-dom";
+import { Container, Nav, Navbar, Button } from "react-bootstrap";
+import logo from "../assets/logo.png";
 
-function NavBar({ user }) {
+function NavBar({ user, setUser}) {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null); 
+    navigate("/login"); 
+  };
   return (
     <Navbar expand="lg" style={{ backgroundColor: "rgb(37, 211, 102)" }}>
       <Container>
@@ -34,6 +40,16 @@ function NavBar({ user }) {
                 <Nav.Link as={Link} to="/pedir-turno" className="nav-link-custom">Pedir Turno</Nav.Link>
                 <Nav.Link as={Link} to="/ver-turnos" className="nav-link-custom">Ver Turnos</Nav.Link>
               </>
+            )}
+            {/* Botón de Cerrar Sesión */}
+            {user && (
+              <Button
+                variant="outline-light"
+                className="ms-3"
+                onClick={handleLogout}
+              >
+                Cerrar Sesión
+              </Button>
             )}
           </Nav>
         </Navbar.Collapse>
