@@ -23,15 +23,16 @@ function NavBar({ user }) {
               <>
                 <Nav.Link as={Link} to="/" className="nav-link-custom">Inicio</Nav.Link>
                 <Nav.Link as={Link} to="/mis-turnos" className="nav-link-custom">Turnos</Nav.Link>
-                <Nav.Link as={Link} to="/pedir-turno" className="nav-link-custom">Solicitar Turno</Nav.Link>
+                <Nav.Link as={Link} to="/pedir-turno" className="nav-link-custom">Pedir Turno</Nav.Link>
                 <Nav.Link as={Link} to="/tratamientos" className="nav-link-custom">Tratamientos</Nav.Link>
               </>
             )}
 
             {user?.role === "admin" && (
               <>
-                <Nav.Link as={Link} to="/" className="nav-link-custom">Panel</Nav.Link>
-                <Nav.Link as={Link} to="/contacto" className="nav-link-custom">Contactos</Nav.Link>
+                <Nav.Link as={Link} to="/" className="nav-link-custom">Inicio</Nav.Link>
+                <Nav.Link as={Link} to="/pedir-turno" className="nav-link-custom">Pedir Turno</Nav.Link>
+                <Nav.Link as={Link} to="/ver-turnos" className="nav-link-custom">Ver Turnos</Nav.Link>
               </>
             )}
           </Nav>

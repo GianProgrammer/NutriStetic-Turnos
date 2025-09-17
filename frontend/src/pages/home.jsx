@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import heroBanner from "../assets/heroBanner.avif";
 
-function Home() {
+function Home({user}) {
   return (
     <div className="container-fluid p-0">
       {/* Hero Banner */}
@@ -18,14 +18,30 @@ function Home() {
         <h2 className="mb-4 montserrat-font" style={{ color: "#8CC641" }}>
           Accesos rápidos
         </h2>
+        {user?.role === "usuario" && (
         <div className="d-flex justify-content-center gap-3 montserrat-font">
-          <Link to="/mis-turnos" className="btn btn-lg btn-turno btn-verde">
+          
+          <Link to="/mis-turnos" className="btn btn-lg btn-turno btn-verde montserrat-font">
             Mis Turnos
           </Link>
           <Link to="/pedir-turno" className="btn btn-lg btn-turno btn-verde montserrat-font">
             Pedir Turno
           </Link>
+          
         </div>
+        )}
+        {user?.role === "admin" && (
+        <div className="d-flex justify-content-center gap-3 montserrat-font">
+          
+          <Link to="/ver-turnos" className="btn btn-lg btn-turno btn-verde montserrat-font">
+            Ver Turnos
+          </Link>
+          <Link to="/pedir-turno" className="btn btn-lg btn-turno btn-verde montserrat-font">
+            Pedir Turno
+          </Link>
+          
+        </div>
+        )}
       </section>
 
       {/* Estilos */}
