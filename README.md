@@ -9,7 +9,7 @@ Los usuarios pueden ingresar su **DNI** para consultar los turnos disponibles y 
 - **Frontend**: React + Bootstrap  
 - **Backend**: Node.js + Express  
 - **Base de datos**: MongoDB + Mongoose  
-- **Herramientas**: Postman (para pruebas de API)  
+- **Herramientas**: Postman (para pruebas de API) + Docker
 
 ---
 
