@@ -2,9 +2,11 @@
 import { useState } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login({ setUser }) {
   const [form, setForm] = useState({ dni: "", password: "" });
+  const [showPassw, setShowPassw] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -51,14 +53,29 @@ function Login({ setUser }) {
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            className="form-control mb-4"
-            onChange={handleChange}
-            required
-          />
+          <div className="position-relative mb-3">
+            <input
+              type={showPassw ? "text" : "password"}
+              name="password"
+              placeholder="Contraseña"
+              className="form-control"
+              onChange={handleChange}
+              required
+            />
+            <span
+              onClick={() => setShowPassw(!showPassw)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#555",
+              }}
+            >
+              {showPassw ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
           <button
             type="submit"
             className="btn w-100 fw-bold text-white"
