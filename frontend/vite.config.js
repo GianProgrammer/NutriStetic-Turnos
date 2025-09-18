@@ -18,5 +18,11 @@ export default defineConfig({
     watch: {
         usePolling: true,
     }
-  }
+  },
+  resolve: {
+    alias: {
+      "@emotion/styled": "@emotion/styled",
+      "@emotion/react": "@emotion/react",
+    },
+  },
 });

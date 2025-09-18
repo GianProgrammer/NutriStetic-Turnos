@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import jwtDecode from "jwt-decode";
 import Home from "./pages/home";
 import MisTurnos from "./pages/misTurnos";
@@ -13,7 +15,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import "./app.css";
 
-function App() {
+function App({children}) {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -32,7 +34,10 @@ function App() {
     return;
   console.log(user);
   return (
-    
+    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {children}
+    </LocalizationProvider>
     <div className="app-container montserrat-font">
       <BrowserRouter>
         {user && <NavBar user={user} setUser={setUser}/>}
@@ -72,6 +77,7 @@ function App() {
         <Footer />
       </BrowserRouter>
     </div>
+    </>
   );
 }
 
