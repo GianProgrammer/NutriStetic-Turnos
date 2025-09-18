@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import Home from "./pages/home";
 import MisTurnos from "./pages/misTurnos";
 import PedirTurno from "./pages/pedirTurno";
+import PedirTurnoAdmin from "./pages/pedirTurnoAdmin";
 import Tratamientos from "./pages/tratamientos";
 import VerTurnos from "./pages/verTurnos";
 import NavBar from "./components/navbar";
@@ -61,7 +62,7 @@ function App() {
             {isAuth && user?.role === "admin" && (
               <>
                 <Route path="/" element={<Home user={user}/>} />
-                <Route path="/pedir-turno" element={<PedirTurno user={user}/>} />
+                <Route path="/pedir-turno" element={<PedirTurnoAdmin user={user}/>} />
                 <Route path="/ver-turnos" element={<VerTurnos />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </>
