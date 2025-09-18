@@ -49,6 +49,17 @@ export function SinTurnosModal({ show, handleClose }) {
   );
 }
 
+export function LoginInvalidoModal({ show, handleClose }) {
+  return (
+    <TurnoModal
+      show={show}
+      handleClose={handleClose}
+      title="Error de credenciales"
+      msg="Sus credenciales no coinciden. Revise su DNI y contraseña"
+    />
+  );
+}
+
 export function FechaInvalidaModal({ show, handleClose }) {
   return (
     <TurnoModal

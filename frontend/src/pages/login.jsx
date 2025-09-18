@@ -2,11 +2,13 @@
 import { useState } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { LoginInvalidoModal } from "../components/modal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login({ setUser }) {
   const [form, setForm] = useState({ dni: "", password: "" });
   const [showPassw, setShowPassw] = useState(false);
+  const [modalShow, setModalShow] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -30,13 +32,17 @@ function Login({ setUser }) {
       window.location.href = "/"  // ir al home
     } catch (err) {
       console.error(err);
-      alert("Login inválido");
+      setModalShow(true);
     }
     
   };
 
   return (
     <div className="container mt-5 d-flex justify-content-center">
+          <LoginInvalidoModal
+            show={modalShow == true}
+            handleClose={() => setModalShow(null)}
+          />
       <div
         className="card shadow-lg p-4 border-0 rounded-4 mb-5"
         style={{ maxWidth: "400px", width: "100%" }}
