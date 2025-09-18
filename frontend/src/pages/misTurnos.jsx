@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { SinTurnosModal } from "../components/modal";
 
 function formatearFechas(a, b) {
   const [aYear, aMonth, aDay] = a.fecha.split("-").map(Number);
@@ -12,10 +13,11 @@ function formatearFechas(a, b) {
 }
 
 
-function MisTurnos() {
-  const [dni, setDni] = useState("");
+function MisTurnos({user}) {
+  const [dni, setDni] = useState(user.dni);
   const [turnos, setTurnos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modalShow, setModalShow] = useState(null);
 
   const buscarTurnos = async (e) => {
     e.preventDefault();
@@ -25,6 +27,8 @@ function MisTurnos() {
     try {
       const res = await axios.get(`/api/turnos/${dni}`);
       setTurnos(res.data);
+      if(res.data.length == 0)
+        setModalShow(true);
     } catch (err) {
       console.error(err);
       alert("Error al buscar turnos");
@@ -35,6 +39,10 @@ function MisTurnos() {
 
   return (
     <div className="container my-5">
+      <SinTurnosModal
+        show={modalShow == true}
+        handleClose={() => setModalShow(null)}
+      />
       {/* Título */}
       <h2 className="text-center mb-4 fw-bold" style={{ color: "#8CC641" }}>
         Mis Turnos
@@ -49,7 +57,7 @@ function MisTurnos() {
           type="text"
           placeholder="Ingresá tu DNI"
           className="form-control w-50"
-          value={dni}
+          value={user.dni}
           onChange={(e) => setDni(e.target.value)}
           required
         />

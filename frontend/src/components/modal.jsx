@@ -38,6 +38,17 @@ export function TurnoOcupadoModal({ show, handleClose }) {
   );
 }
 
+export function SinTurnosModal({ show, handleClose }) {
+  return (
+    <TurnoModal
+      show={show}
+      handleClose={handleClose}
+      title="Sin Turnos"
+      msg="Actualmente, usted no posee ningún turno a su nombre."
+    />
+  );
+}
+
 export function FechaInvalidaModal({ show, handleClose }) {
   return (
     <TurnoModal

@@ -51,7 +51,7 @@ function App() {
             {isAuth && user?.role === "usuario" && (
               <>
                 <Route path="/" element={<Home user={user}/>} />
-                <Route path="/mis-turnos" element={<MisTurnos />} />
+                <Route path="/mis-turnos" element={<MisTurnos user={user}/>} />
                 <Route path="/pedir-turno" element={<PedirTurno user={user}/>} />
                 <Route path="/tratamientos" element={<Tratamientos />} />
                 <Route path="*" element={<Navigate to="/" replace />} />

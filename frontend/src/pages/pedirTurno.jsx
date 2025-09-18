@@ -58,11 +58,11 @@ function PedirTurno({user}) {
     }
       
     if(fecha < today) {
-      return setModalShow("fechaInvalida");
-      return;
+      setModalShow("fechaInvalida");
+      return
     }
     if (!timeOptions.includes(form.hora)) {
-      return setModalShow("horaInvalida");
+      setModalShow("horaInvalida");
       return;
     }
     axios
