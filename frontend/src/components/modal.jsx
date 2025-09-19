@@ -38,6 +38,17 @@ export function TurnoOcupadoModal({ show, handleClose }) {
   );
 }
 
+export function ExitoRegistroModal({ show, handleClose }) {
+  return (
+    <TurnoModal
+      show={show}
+      handleClose={handleClose}
+      title="Éxito"
+      msg="Usuario registrado con éxito"
+    />
+  );
+}
+
 export function SinTurnosModal({ show, handleClose }) {
   return (
     <TurnoModal

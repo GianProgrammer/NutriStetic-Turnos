@@ -2,6 +2,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ExitoRegistroModal } from "../components/modal";
+
+
 
 function Register() {
   const [form, setForm] = useState({
@@ -11,17 +14,21 @@ function Register() {
     role: "usuario", // valor por defecto
   });
   const [showPassw, setShowPassw] = useState(false);
-
+  const [modalShow, setModalShow] = useState(null);
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleCloseModal = () => {
+  setModalShow(null);
+  window.location.href = "/login"; // redirige después de cerrar modal
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("/api/auth/register", form);
-      alert("Usuario registrado con éxito ✅");
-      window.location.href = "/login"; // redirige al login
+      setModalShow(true);
     } catch (err) {
       alert("Error al registrarse ❌");
       console.error(err);
@@ -30,6 +37,10 @@ function Register() {
 
   return (
     <div className="container mt-5 d-flex justify-content-center">
+      <ExitoRegistroModal
+        show={modalShow == true}
+        handleClose={handleCloseModal}
+      />
       <div
         className="card shadow-lg p-4 border-0 rounded-4 mb-5"
         style={{ maxWidth: "400px", width: "100%" }}
