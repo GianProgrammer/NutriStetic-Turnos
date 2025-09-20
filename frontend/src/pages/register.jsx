@@ -15,6 +15,8 @@ function Register() {
   });
   const [showPassw, setShowPassw] = useState(false);
   const [modalShow, setModalShow] = useState(null);
+  const [password2, setPassword2] = useState("");
+  
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -27,6 +29,10 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if(!(form.password == password2)) {
+        alert("Las contraseñas no coinciden ❌");
+        return;
+      }
       await axios.post("/api/auth/register", form);
       setModalShow(true);
     } catch (err) {
@@ -75,6 +81,30 @@ function Register() {
               placeholder="Contraseña"
               className="form-control"
               onChange={handleChange}
+              required
+            />
+            <span
+              onClick={() => setShowPassw(!showPassw)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#555",
+              }}
+            >
+              {showPassw ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+         <div className="position-relative mb-3">
+            <input
+              type={showPassw ? "text" : "password"}
+              name="password2"
+              placeholder="Repetir Contraseña"
+              className="form-control"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
               required
             />
             <span
