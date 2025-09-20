@@ -9,7 +9,6 @@ import {
   FechaInvalidaModal,
   HoraInvalidaModal,
   TurnoExitosoModal,
-  ErrorBusquedaModal,
   ServicioInvalidoModal,
 } from "../components/modal"
 import "../app.css";

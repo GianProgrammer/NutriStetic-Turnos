@@ -1,11 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import dayjs from "dayjs";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import {
   TurnoOcupadoModal,
   FechaInvalidaModal,
   HoraInvalidaModal,
   TurnoExitosoModal,
-  ErrorBusquedaModal,
   ServicioInvalidoModal,
 } from "../components/modal"
 import "../app.css";
@@ -15,6 +18,7 @@ const HORA_MAX = 19;
 
 function PedirTurno({user}) {
   const [modalShow, setModalShow] = useState(null);
+  const [valueHora, setValue] = useState(null);
   const [form, setForm] = useState({
     nombre: user.nombre,
     dni: user.dni,
@@ -47,11 +51,12 @@ function PedirTurno({user}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fechaForm = form.fecha;
+    const horaForm = valueHora;
+    form.hora = horaForm.format("HH:mm");
     const [anio, mes, dia] = fechaForm.split("-");
     const fecha = new Date(anio, mes - 1, dia);
     const today = new Date();
     today.setHours(0,0,0,0);
-
     if(form.servicio == "") {
       setModalShow("fechaInvalida");
       return;
@@ -62,6 +67,7 @@ function PedirTurno({user}) {
       return
     }
     if (!timeOptions.includes(form.hora)) {
+      console.log(form.hora);
       setModalShow("horaInvalida");
       return;
     }
@@ -115,7 +121,7 @@ function PedirTurno({user}) {
           <input
             type="text"
             name="dni"
-            value = {user.dni}
+            value={user.dni}
             placeholder="DNI"
             className="form-control mb-3"
             onChange={handleChange}
@@ -157,13 +163,20 @@ function PedirTurno({user}) {
             onChange={handleChange}
             required
           />
-          <input
-            type="time"
-            name="hora"
-            className="form-control mb-4"
-            onChange={handleChange}
-            required
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+            label="Horario" 
+            value={valueHora}
+            onChange={(newValue) => setValue(newValue)}
+            required 
+            minutesStep={30}
+            minTime={dayjs().hour(8).minute(0)}
+            maxTime={dayjs().hour(19).minute(0)}
+            skipDisabled={true}
+            ampm = {false}
+            className="form-control mb-3"
+            />
+          </LocalizationProvider>
           <button
             type="submit"
             className="btn w-100 fw-bold text-white"
