@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import heroBanner from "../assets/heroBanner.avif";
 import noImage from "../assets/noImage.jpeg";
 
@@ -106,6 +106,16 @@ const tratamientos = [
 ];
 
 export default function Tratamientos() {
+  const [selectedTratamiento, setSelectedTratamiento] = useState(null);
+
+  const handleCardClick = (tratamiento) => {
+    setSelectedTratamiento(tratamiento);
+  };
+
+  const handleClose = () => {
+    setSelectedTratamiento(null);
+  };
+
   return (
     <div className="tratamientos-page" style={{ minHeight: "100vh" }}>
       {/* Hero */}
@@ -140,36 +150,48 @@ export default function Tratamientos() {
         <div className="row g-4">
           {tratamientos.map((t, idx) => (
             <div className="col-sm-6 col-md-4" key={idx}>
-                <div className="t-card">
-                    <img src={t.imagen} alt={t.nombre} className="t-image" />
+              <div className="t-card" onClick={() => handleCardClick(t)}>
+                <img src={t.imagen} alt={t.nombre} className="t-image" />
 
-                    {/* Título siempre visible */}
-                    <div className="t-title-static">
-                        <h5>{t.nombre}</h5>
-                    </div>
-
-                    {/* Overlay con descripción */}
-                    <div className="t-overlay">
-                        <div className="t-text">
-                            <h5 className="t-title">{t.nombre}</h5>
-                            <p className="t-desc">{t.descripcion}</p>
-                        </div>
-                    </div>
+                <div className="t-title-static">
+                  <h5>{t.nombre}</h5>
                 </div>
+
+                <div className="t-overlay">
+                  <div className="t-text">
+                    <h5 className="t-title">{t.nombre}</h5>
+                    <p className="t-desc">{t.descripcion}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Modal */}
+      {selectedTratamiento && (
+        <div className="custom-modal-overlay" onClick={handleClose}>
+          <div
+            className="custom-modal-content"
+            onClick={(e) => e.stopPropagation()} // evita que cierre si clickean adentro
+          >
+            <button className="custom-modal-close" onClick={handleClose}>
+              ✕
+            </button>
+            <img
+              src={selectedTratamiento.imagen}
+              alt={selectedTratamiento.nombre}
+              className="custom-modal-image"
+            />
+            <h3>{selectedTratamiento.nombre}</h3>
+            <p>{selectedTratamiento.descripcion}</p>
+          </div>
+        </div>
+      )}
+
       {/* Styles */}
       <style>{`
-        :root{
-          --verde-1: #8CC641;
-          --amarillo: #D3DA11;
-          --amarillo-2: #D6E02E;
-          --verde-wsp: #25D366;
-        }
-
         .t-card {
           position: relative;
           overflow: hidden;
@@ -184,32 +206,33 @@ export default function Tratamientos() {
           flex-direction: column;
         }
 
+        .t-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
         .t-image {
           width: 100%;
           height: 220px;
           object-fit: cover;
           display: block;
-          transition: transform 0.6s ease;
         }
 
-        /* Título siempre visible */
         .t-title-static {
           position: absolute;
           bottom: 10px;
           left: 10px;
-          color: rgb(140, 198, 65); /* título negro */
+          color: rgb(140, 198, 65);
           font-weight: 700;
           z-index: 2;
           font-size: 0.95rem;
-          transition: opacity 0.35s ease; /* animación de desaparición */
+          transition: opacity 0.35s ease;
         }
 
-        /* Al hacer hover en la card, ocultamos el título estático */
         .t-card:hover .t-title-static {
           opacity: 0;
         }
 
-        /* Overlay sigue igual */
         .t-overlay {
           position: absolute;
           inset: 0;
@@ -223,15 +246,15 @@ export default function Tratamientos() {
           color: #fff;
         }
 
+        .t-card:hover .t-overlay {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
         .t-text {
           transform: translateY(12px);
           transition: transform 0.35s ease, opacity 0.35s ease;
           opacity: 0;
-        }
-
-        .t-card:hover .t-overlay {
-          opacity: 1;
-          transform: translateY(0);
         }
 
         .t-card:hover .t-text {
@@ -239,10 +262,50 @@ export default function Tratamientos() {
           opacity: 1;
         }
 
-        /* Make text area white-ish on small screens for readability */
-        @media (max-width: 576px) {
-          .t-image { height: 180px; }
-          .t-overlay { align-items: center; background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.6) 100%); }
+        /* Modal Styles */
+        .custom-modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+        }
+
+        .custom-modal-content {
+          background: #fff;
+          border-radius: 12px;
+          padding: 20px;
+          max-width: 600px;
+          width: 90%;
+          position: relative;
+          text-align: center;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+          animation: fadeIn 0.3s ease;
+        }
+
+        .custom-modal-image {
+          width: 100%;
+          max-height: 300px;
+          object-fit: cover;
+          border-radius: 8px;
+          margin-bottom: 15px;
+        }
+
+        .custom-modal-close {
+          position: absolute;
+          top: 10px;
+          right: 12px;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
         }
       `}</style>
     </div>
