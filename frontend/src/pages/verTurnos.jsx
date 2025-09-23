@@ -77,8 +77,7 @@ export default function AdminCalendario() {
   const cancelarTurno = async () => {
     try {
       await axios.post("/api/whatsapp/send", {
-        to: "541123119632", // Luego esto va a user {user.telefono}
-        message: "Tu turno fue cancelado ❌",
+        to: "541123119631", // Luego esto va a user {user.telefono}
       });
       alert("Mensaje enviado por WhatsApp");
     } catch (error) {

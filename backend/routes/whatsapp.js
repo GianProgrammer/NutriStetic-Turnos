@@ -8,16 +8,21 @@ const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
 
 // POST /whatsapp/send
 router.post("/send", async (req, res) => {
-  const { to, message } = req.body; // Ej: { "to": "5491123456789", "message": "Tu turno fue cancelado" }
+  const {to} = req.body; // Ej: { "to": "5491123456789", "message": "Tu turno fue cancelado" }
 
   try {
     const response = await axios.post(
-      `https://graph.facebook.com/v21.0/${PHONE_NUMBER_ID}/messages`,
+      `https://graph.facebook.com/v22.0/${PHONE_NUMBER_ID}/messages`,
       {
-        messaging_product: "whatsapp",
+        "messaging_product": "whatsapp",
         to,
-        type: "text",
-        text: { body: message },
+        "type": "template",
+        "template": {
+          "name": "hello_world",
+          "language": {
+            "code": "en_US"
+          }
+        }
       },
       {
         headers: {
