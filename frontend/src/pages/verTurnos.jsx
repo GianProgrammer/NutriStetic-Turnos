@@ -74,12 +74,26 @@ export default function AdminCalendario() {
 
   const handleClose = () => setSelectedTurno(null);
 
+  const cancelarTurno = async () => {
+    try {
+      await axios.post("/api/whatsapp/send", {
+        to: "541123119632", // Luego esto va a user {user.telefono}
+        message: "Tu turno fue cancelado ❌",
+      });
+      alert("Mensaje enviado por WhatsApp");
+    } catch (error) {
+      console.error(error);
+      alert("Error al enviar mensaje");
+    }
+  };
+
   // eliminar turno
   const handleDelete = async () => {
     if (!selectedTurno) return;
     try {
       await axios.delete(`/api/turnos/${selectedTurno._id}`);
       setEvents((prev) => prev.filter((ev) => ev.id !== selectedTurno._id));
+      cancelarTurno();
       handleClose();
     } catch (err) {
       console.error("Error borrando turno:", err);
