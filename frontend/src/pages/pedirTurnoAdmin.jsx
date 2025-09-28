@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import {
   TurnoOcupadoModal,
   FechaInvalidaModal,
@@ -18,7 +18,8 @@ const HORA_MAX = 19;
 
 function PedirTurnoAdmin({user}) {
   const [modalShow, setModalShow] = useState(null);
-  const [valueHora, setValue] = useState(null);
+  const [fechaHora, setFechaHora] = useState(null);
+  const [turnosPorFecha, setTurnosPorFecha] = useState({});
   const [form, setForm] = useState({
     nombre: user.nombre,
     dni: user.dni,
@@ -27,56 +28,73 @@ function PedirTurnoAdmin({user}) {
     hora: ""
   });
 
-  const generateTimeOptions = (min = HORA_MIN, max = HORA_MAX, stepMinutes = 30) => {
-    const pad = (n) => String(n).padStart(2, "0");
-    const [minH, minM] = min.split(":").map(Number);
-    const [maxH, maxM] = max.split(":").map(Number);
-    const start = minH * 60 + minM;
-    const end = maxH * 60 + maxM;
-    const out = [];
-    for (let t = start; t <= end; t += stepMinutes) {
-      const hh = Math.floor(t / 60);
-      const mm = t % 60;
-      out.push(`${pad(hh)}:${pad(mm)}`);
-    }
-    return out;
-  };
+  useEffect(() => {
+    const fetchTurnos = async () => {
+      try {
+        const response = await axios.get("/api/turnos"); 
+        const turnos = response.data;
 
-  const timeOptions = generateTimeOptions("08:00", "19:00", 30);
+        const turnosMap = turnos.reduce((acc, turno) => {
+          const fecha = turno.fecha;
+          const hora = turno.hora;
 
+          if (!acc[fecha]) acc[fecha] = [];
+          acc[fecha].push(hora);
+
+          acc[fecha].sort((a, b) => a.localeCompare(b));
+
+          return acc;
+        }, {});
+
+        setTurnosPorFecha(turnosMap);
+      } catch (error) {
+        console.error("Error al obtener los turnos:", error);
+      }
+    };
+
+    fetchTurnos();
+  }, []);
+  console.log(turnosPorFecha);
+  
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fechaForm = form.fecha;
-    const horaForm = valueHora;
-    form.hora = horaForm.format("HH:mm");
-    const [anio, mes, dia] = fechaForm.split("-");
-    const fecha = new Date(anio, mes - 1, dia);
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    if(form.servicio == "") {
+    if (!fechaHora) {
       setModalShow("fechaInvalida");
       return;
     }
-      
-    if(fecha < today) {
-      setModalShow("fechaInvalida");
-      return
+
+    const fechaSeleccionada = fechaHora.startOf("day");
+    const today = dayjs().startOf("day");
+
+    if(form.servicio === "") {
+      setModalShow("servicioInvalido");
+      return;
     }
-    if (!timeOptions.includes(form.hora)) {
-      console.log(form.hora);
+
+    if(fechaSeleccionada.isBefore(today)) {
+      setModalShow("fechaInvalida");
+      return;
+    }
+
+    // Guardamos fecha y hora en el form
+    form.fecha = fechaHora.format("YYYY-MM-DD");
+    form.hora = fechaHora.format("HH:mm");
+
+    const horaNum = parseInt(form.hora.split(":")[0], 10);
+    if (horaNum < HORA_MIN || horaNum > HORA_MAX) {
       setModalShow("horaInvalida");
       return;
     }
+
     axios
       .post("/api/turnos", form)
       .then(() => setModalShow("exitoso"))
       .catch((err) => {
         if (err.response && err.response.status === 400) {
-          // Mostramos el modal cuando el turno está ocupado
           setModalShow("turnoOcupado");
         } else {
           alert("Error al reservar turno");
@@ -103,7 +121,7 @@ function PedirTurnoAdmin({user}) {
         handleClose={() => setModalShow(null)}
       />
       <ServicioInvalidoModal
-        show={modalShow === "errorBusqueda"}
+        show={modalShow === "servicioInvalido"}
         handleClose={() => setModalShow(null)}
       />
       <div className="card shadow-lg p-4 border-0 rounded-4" style={{ maxWidth: "500px", width: "100%" }}>
@@ -154,25 +172,25 @@ function PedirTurnoAdmin({user}) {
             <option value="vela_shape">Vela Shape</option>
             <option value="capsula_term">Cápsula Termodinámica De Ondas Rusas</option>
           </select>
-          <input
-            type="date"
-            name="fecha"
-            className="form-control mb-3"
-            onChange={handleChange}
-            required
-          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <TimePicker
-            label="Horario" 
-            value={valueHora}
-            onChange={(newValue) => setValue(newValue)}
-            required 
-            minutesStep={30}
-            minTime={dayjs().hour(8).minute(0)}
-            maxTime={dayjs().hour(19).minute(0)}
-            skipDisabled={true}
-            ampm = {false}
-            className="form-control mb-3"
+            <DateTimePicker
+              label="Fecha y horario"
+              value={fechaHora}
+              onChange={(newValue) => setFechaHora(newValue)}
+              minutesStep={30}
+              ampm={false}
+              minDate={dayjs()} 
+              maxDate={dayjs().add(1, "year")} 
+              minTime={dayjs().hour(HORA_MIN).minute(0)}
+              maxTime={dayjs().hour(HORA_MAX).minute(0)}
+              disableIgnoringDatePartForTimeValidation={true} // fuerza que se valide la hora para cualquier fecha
+              slotProps={{
+                textField: {
+                  required: true,
+                  className: "form-control mb-3",
+                  name: "fechaHora"
+                }
+              }}
             />
           </LocalizationProvider>
           <button
