@@ -17,9 +17,10 @@ Los usuarios pueden consultar los turnos disponibles y pueden registrar nuevos t
 ## Screenshots
 
 ### Home
-[![home](https://i.postimg.cc/cLStf5G1/Screenshot-2025-09-16-152153.png)](https://postimg.cc/XpsvbLvt)
+[![home](https://i.ibb.co/RqYBHX3/Screenshot-2025-09-16-152153.png)](https://ibb.co/7qjRy3n)
+
 
 ### Solicitar Turno
+[![Solicitar Turno](https://i.ibb.co/BMDm2rH/Screenshot-2025-09-16-152446.png)](https://ibb.co/SCT2wdD)
 
-[![Solicitar Turno](https://i.postimg.cc/zfwjnRc6/Screenshot-2025-09-16-152446.png)](https://postimg.cc/zLBKN35F)
 
